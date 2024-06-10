@@ -1,7 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { useMutation, useQuery } from "convex/react";
+import { useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
-import { Link } from "@/components/typography/link";
 import { useState } from "react";
 
 const pagesIndexes = (selectedPage: number, pageCount?: number | null) => {

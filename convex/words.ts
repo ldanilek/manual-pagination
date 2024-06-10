@@ -1,7 +1,6 @@
 import { v } from "convex/values";
-import { query, mutation, action, QueryCtx, internalMutation } from "./_generated/server";
-import { api, internal } from "./_generated/api";
-import { Doc, TableNames } from "./_generated/dataModel";
+import { query, mutation, internalMutation } from "./_generated/server";
+import { internal } from "./_generated/api";
 import { getIndexKey, getPage } from "./pagination";
 
 export const insert = mutation({
@@ -13,7 +12,7 @@ export const insert = mutation({
 
 export const computePages = internalMutation({
     args: { },
-    handler: async (ctx, args) => {
+    handler: async (ctx, _args) => {
         await ctx.scheduler.runAfter(0, internal.words.computeNextPage, { pageIndex: 0, startKey: [] });
     },
 });
@@ -62,7 +61,7 @@ export const computeNextPage = internalMutation({
 
 export const pageCount = query({
     args: {},
-    handler: async (ctx, args) => {
+    handler: async (ctx, _args) => {
         const lastPage = await ctx.db.query("pages").withIndex("pageIndex").order("desc").first();
         if (!lastPage) {
             return null;
@@ -78,7 +77,7 @@ export const pageOfWords = query({
         if (!pageDoc) {
             throw new Error("invalid page index");
         }
-        const { page, hasMore } = await getPage(ctx, {
+        const { page } = await getPage(ctx, {
             table: "words",
             startIndexKey: pageDoc.startKey,
             endIndexKey: pageDoc.endKey,
