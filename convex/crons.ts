@@ -3,9 +3,9 @@ import { internal } from "./_generated/api";
 
 const crons = cronJobs();
 
-crons.interval(
+crons.daily(
   "recalculate pages",
-  { minutes: 1 }, // every minute
+  { hourUTC: 0, minuteUTC: 0 },
   internal.words.computePages,
 );
 
