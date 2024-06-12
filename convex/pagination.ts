@@ -92,9 +92,9 @@ export async function getPage<
   );
   const absoluteMaxRows = request.absoluteMaxRows ?? Infinity;
   const targetMaxRows = request.targetMaxRows ?? DEFAULT_TARGET_MAX_ROWS;
-  const absoluteLimit = Math.min(
+  const absoluteLimit = request.endIndexKey ? absoluteMaxRows : Math.min(
     absoluteMaxRows,
-    request.endIndexKey ? absoluteMaxRows : targetMaxRows
+    targetMaxRows
   );
   const page = [];
   const indexKeys = [];
